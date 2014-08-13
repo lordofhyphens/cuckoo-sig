@@ -1,0 +1,35 @@
+cuckoo-sig
+Written by Joseph Lenox
+
+Straightforward implementation of a signature-based cuckoo hashtable (with a stash) under the
+maximum keysize restriction of an unsigned long long int (which is true under
+Fermi). 
+
+The primary use case here is where the key is also valuable data in and of itself.
+
+In this system, the value is a reference to some external array, and the key is
+a simple hash of the key parts. We use 3-part keys because that's what the
+client application that this was written for wants.  Generalization for any
+number of key arguments is left as an exercise for other users. :D
+
+The number of hash functions is also fixed to 5. Getting this to also be
+generic and still compile down to decent code is also an exercise for the
+reader. 
+
+Pattern here is a singleton pattern. Each table should have its own key
+arrays, but could share hash functions.
+
+For decent insert performance, make sure that the key arrays are 2/3rds the
+size of the actual hashtable. The stash shouldn't be any bigger than 100
+entries, as a serial loop is used to check the hash (imposing a penalty
+for not-found responses).
+
+For CUDA, the user is expected to ensure that all pointers are legit.
+
+This implementation uses hemi, this will be better-exploited later.
+
+Some other assumptions: 
+
+I assume that there aren't many threads available to parallelize operations
+this low. I have some crazy ideas involving a switch to "hijack" threads to
+help with rebuilds.
