@@ -98,7 +98,6 @@ class CuckooSignatureTable
         entry = TableSlot(hemi::atomicExch(table+location,(unsigned long long int)entry));
 
         if (entry == HEMI_CONSTANT(EMPTY_SLOT)) return v;
-        printf("%llx\n", (unsigned long long int)entry);
 
         unsigned int location_0 = hashfunc(entry.sig,0);
         unsigned int location_1 = hashfunc(entry.sig,1);
