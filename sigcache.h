@@ -28,7 +28,14 @@ class SigCache : public CuckooSignatureTable
         unsigned int key = computeSignature(key1,key2,key3);
         unsigned int entry = retrieve(key1, key2, key3);
         if (entry < keySize) return entry; // already in the table
-        keyInsert(key, v);
+        unsigned int oldval = keyInsert(key, v);
+        if (oldval != v && oldval < Size()) 
+        {
+          // clear old key out
+          keyPt1[oldval] = HEMI_CONSTANT(EMPTY_KEY);
+          keyPt2[oldval] = HEMI_CONSTANT(EMPTY_KEY);
+          keyPt3[oldval] = HEMI_CONSTANT(EMPTY_KEY);
+        }
         return v; // we don't care about the entries that are bumped from the table.
       }
     }

@@ -36,7 +36,7 @@
 HEMI_DEV_CALLABLE_INLINE unsigned long long make_entry(unsigned int key, unsigned int value) { return ((((unsigned long long)key) << 32) + (value)); }
 HEMI_DEFINE_STATIC_CONSTANT(long long int lg_prime,334214459);
 HEMI_DEFINE_STATIC_CONSTANT(unsigned int DEFAULT_MAX_ATTEMPTS,120);
-
+HEMI_DEFINE_CONSTANT(unsigned int EMPTY_KEY, 0xffffffff);
 struct TableSlot
 {
   unsigned int sig;
