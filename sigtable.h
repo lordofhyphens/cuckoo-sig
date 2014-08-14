@@ -193,6 +193,8 @@ class CuckooSignatureTable
                            rebuild(rebuild), MAX_ATTEMPTS(HEMI_CONSTANT(DEFAULT_MAX_ATTEMPTS)) {}
 
 
+    HEMI_DEV_CALLABLE_INLINE_MEMBER unsigned int Size() const { return keySize; }
+
     // Returns a copy of the position in the keypt arrays that we put the K/V
     // values in for use in indexing additional arrays.
     // TODO: Be able to deal with failure from above. 
