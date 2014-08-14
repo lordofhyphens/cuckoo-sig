@@ -78,6 +78,7 @@ class CuckooSignatureTable
     unsigned long long int * table;
     unsigned long long int * stash;
 
+  protected:
     // Perform the insert on the table, going to the stash if there's no room.
     // If there *still* isn't any room, return the last value we got so the
     // calling function can initiate a rebuild.
@@ -174,6 +175,24 @@ class CuckooSignatureTable
                            unsigned int hash_count, unsigned int * top, unsigned int * stashTop, 
                            bool* rebuild) 
                            : keyPt1(key1), keyPt2(key2), keyPt3(key3), hash_a(hash_a), hash_b(hash_b), size(slots), stash(stash), table(table), stashSize(stashSlots), MAX_FUNCS(hash_count), top(top), stashTop(stashTop), rebuild(rebuild), MAX_ATTEMPTS(HEMI_CONSTANT(DEFAULT_MAX_ATTEMPTS)), keySize(keySlots) {}
+    
+    // Copy-constructor that shares the same keytables, but creates a new hash/stash table using the same functions.
+    HEMI_DEV_CALLABLE_INLINE_MEMBER 
+      CuckooSignatureTable(CuckooSignatureTable parent,  unsigned long long int * table, 
+                           unsigned int slots, unsigned long long int * stash, unsigned int stashSlots) :
+                           keyPt1(parent.keyPt1), keyPt2(parent.keyPt2), keyPt3(parent.keyPt3), hash_a(parent.hash_a), 
+                           hash_b(parent.hash_b), size(slots), stash(stash), table(table), stashSize(stashSlots), 
+                           MAX_FUNCS(parent.MAX_FUNCS), top(top), stashTop(stashTop), keySize(parent.keySize),
+                           rebuild(rebuild), MAX_ATTEMPTS(HEMI_CONSTANT(DEFAULT_MAX_ATTEMPTS)) {}
+    // Copy-constructor that shares the same keytables, but creates a new hash/stash table using (possibly) different functions.
+    HEMI_DEV_CALLABLE_INLINE_MEMBER 
+      CuckooSignatureTable(CuckooSignatureTable parent,  unsigned long long int * table, 
+                           unsigned int slots, unsigned long long int * stash, unsigned int stashSlots, unsigned int * hash_a, unsigned int* hash_b, unsigned int hash_funcs) :
+                           keyPt1(parent.keyPt1), keyPt2(parent.keyPt2), keyPt3(parent.keyPt3), hash_a(hash_a), 
+                           hash_b(hash_b), size(slots), stash(stash), table(table), stashSize(stashSlots), 
+                           MAX_FUNCS(hash_funcs), top(top), stashTop(stashTop), keySize(parent.keySize),
+                           rebuild(rebuild), MAX_ATTEMPTS(HEMI_CONSTANT(DEFAULT_MAX_ATTEMPTS)) {}
+
 
     // Returns a copy of the position in the keypt arrays that we put the K/V
     // values in for use in indexing additional arrays.

@@ -33,3 +33,8 @@ Some other assumptions:
 I assume that there aren't many threads available to parallelize operations
 this low. I have some crazy ideas involving a switch to "hijack" threads to
 help with rebuilds.
+
+
+SigCache is a separate class, derived from CuckooSignatureTable that acts as a
+cache, evicting old values when the insert "fails". It can be initialized as a
+shadow copy of of a CuckooSignatureTable, referencing the same key arrays.
