@@ -3,7 +3,7 @@ CUDA_PATH := /opt/net/apps/cuda
 NVCC=${CUDA_PATH}/bin/nvcc
 CXX=g++-4.8
 
-CC_FLAGS := -I./hemi -I${CUDA_PATH}/include
+CC_FLAGS := -g -I./hemi -I${CUDA_PATH}/include
 
 NVCC_FLAGS := ${CC_FLAGS} -arch=sm_21  -ccbin ${CXX}
 ARCH := $(shell getconf LONG_BIT)

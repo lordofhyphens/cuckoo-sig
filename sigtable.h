@@ -65,8 +65,7 @@ HEMI_DEFINE_CONSTANT(unsigned long long int EMPTY_SLOT, 0xffffffff00000000);
 
 class CuckooSignatureTable
 {
-  private:
-
+  protected:
     // This needs to be initialized to 0 at the start of the program, and
     // increments with every successful insert. It needs to be in global memory
     // (instead of on the stack) to maintain state between kernel calls.
@@ -74,11 +73,8 @@ class CuckooSignatureTable
     unsigned int * top;
     unsigned int * stashTop; // the next free stash slot.
     bool * rebuild; // singleton
-
     unsigned long long int * table;
     unsigned long long int * stash;
-
-  protected:
     // Perform the insert on the table, going to the stash if there's no room.
     // If there *still* isn't any room, return the last value we got so the
     // calling function can initiate a rebuild.
