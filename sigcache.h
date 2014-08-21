@@ -14,9 +14,9 @@ class SigCache : public CuckooSignatureTable
     HEMI_DEV_CALLABLE_INLINE_MEMBER SigCache(unsigned int * key1, unsigned int * key2, unsigned int * key3,
         unsigned long long int * table, unsigned int slots, unsigned int keySlots,
         unsigned int * hash_a, unsigned int * hash_b,
-        unsigned int hash_count, unsigned int * top, unsigned int * free) :
+        unsigned int hash_count, unsigned int * top, unsigned int * free, unsigned int* freeCount) :
       CuckooSignatureTable(key1, key2, key3, table, slots, keySlots, NULL, 0, 
-          hash_a, hash_b, hash_count, NULL, NULL, NULL), freeList(free), freeCount(freeCount) {}
+          hash_a, hash_b, hash_count, top, NULL, NULL), freeList(free), freeCount(freeCount) {}
 
     // This constructor adds-on to a CuckooSignatureTable.
     HEMI_DEV_CALLABLE_INLINE_MEMBER SigCache(CuckooSignatureTable parent, unsigned long long int * table, 

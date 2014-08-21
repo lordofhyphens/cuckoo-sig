@@ -204,6 +204,7 @@ class CuckooSignatureTable
       if ((result = retrieve(key1, key2, key3)) < keySize)
         return result;
 
+      printf("%s, %u\n", __FILE__,__LINE__);
       // Compute the signature for this key.
       unsigned int sig = computeSignature(key1, key2, key3);
       
